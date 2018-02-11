@@ -243,8 +243,8 @@ function generateBookingItem(content) {
 function renderBookingItem(content) {
   var fragment = document.createDocumentFragment(generateBookingItem(content));
   mapPins.insertBefore(fragment, mapFiltersContainer);
-  //var element = document.createElement(generateBookingItem(content));
-  //mapPins.insertBefore(element, mapFiltersContainer);
+  // var element = document.createElement(generateBookingItem(content));
+  // mapPins.insertBefore(element, mapFiltersContainer);
 }
 
 
