@@ -195,8 +195,8 @@ var generatePins = function (bookingItem) {
 function renderPins() {
   var fragment = document.createDocumentFragment();
 
-  for (var i = 0; i < bookingItems.length; i++) {
-    fragment.appendChild(generatePins(bookingItems[i]));
+  for (var j = 0; j < bookingItems.length; j++) {
+    fragment.appendChild(generatePins(bookingItems[j]));
   }
 
   mapPinsListElement.appendChild(fragment);
@@ -208,11 +208,11 @@ function generateBookingItem(content) {
   bookingItemElement.querySelector('h3').textContent = content.offer.title;
   bookingItemElement.querySelector('p small').textContent = content.offer.address;
   bookingItemElement.querySelector('.popup__price').textContent = content.offer.price + '&#x20bd;/ночь';
-  if (content.offer.type == 'flat') {
+  if (content.offer.type === 'flat') {
     bookingItemElement.querySelector('h4').textContent = 'Квартира';
-  } else if (content.offer.type == 'bungalo') {
+  } else if (content.offer.type === 'bungalo') {
     bookingItemElement.querySelector('h4').textContent = 'Бунгало';
-  } else if (content.offer.type == 'house') {
+  } else if (content.offer.type === 'house') {
     bookingItemElement.querySelector('h4').textContent = 'Дом';
   }
   bookingItemElement.querySelector('h4 + p').textContent = content.offer.rooms + ' комнаты для ' + content.offer.guests + ' гостей';
@@ -231,8 +231,8 @@ function generateBookingItem(content) {
     bookingItemElement.querySelector('.popup__features').appendChild('li.feature.feature--conditioner');
   }
   bookingItemElement.querySelector('.popup__features + p').textContent = content.offer.description;
-  for (var i = 0; i < photosCount; i++) {
-    bookingItemElement.querySelector('.popup__pictures li img').setAttribute('src', content.offer.photos[i]);
+  for (var j = 0; j < photosCount; j++) {
+    bookingItemElement.querySelector('.popup__pictures li img').setAttribute('src', content.offer.photos[j]);
     // bookingItemElement.querySelector('.popup__pictures li img').setAttribute('height', this.naturalHeight);
     // bookingItemElement.querySelector('.popup__pictures li img').setAttribute('width', this.naturalWidth);
   }
