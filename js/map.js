@@ -1,16 +1,18 @@
-var ITEMS_COUNT = 8; //константа для количества объявлений
-var bookingItems = []; //объявляем массив объявлений о квартирах
+"use strict";
 
-//массивы заданных значений
+var ITEMS_COUNT = 8; // константа для количества объявлений
+var bookingItems = []; // объявляем массив объявлений о квартирах
+
+// массивы заданных значений
 var titleList = [
-  "Большая уютная квартира",
-  "Маленькая неуютная квартира",
-  "Огромный прекрасный дворец",
-  "Маленький ужасный дворец",
-  "Красивый гостевой домик",
-  "Некрасивый негостеприимный домик",
-  "Уютное бунгало далеко от моря",
-  "Неуютное бунгало по колено в воде"
+  'Большая уютная квартира',
+  'Маленькая неуютная квартира',
+  'Огромный прекрасный дворец',
+  'Маленький ужасный дворец',
+  'Красивый гостевой домик',
+  'Некрасивый негостеприимный домик',
+  'Уютное бунгало далеко от моря',
+  'Неуютное бунгало по колено в воде'
 ];
 
 var titlesCount = titleList.length;
@@ -19,9 +21,9 @@ var MIN_PRICE = 1000;
 var MAX_PRICE = 1000000;
 
 var typeList = [
-  "flat",
-  "house",
-  "bungalo"
+  'flat',
+  'house',
+  'bungalo'
 ];
 
 var typesCount = typeList.length;
@@ -33,28 +35,28 @@ var MIN_GUESTS = 0;
 var MAX_GUESTS = 3;
 
 var checkTimeList = [
-  "12:00",
-  "13:00",
-  "14:00"
+  '12:00',
+  '13:00',
+  '14:00'
 ];
 
 var ckeckTimesCount = checkTimeList.length;
 
 var featuresList = [
-  "wifi",
-  "dishwasher",
-  "parking",
-  "washer",
-  "elevator",
-  "conditioner"
+  'wifi',
+  'dishwasher',
+  'parking',
+  'washer',
+  'elevator',
+  'conditioner'
 ];
 
 var featuresCount = featuresList.length;
 
 var photosList = [
-  "http://o0.github.io/assets/images/tokyo/hotel1.jpg",
-  "http://o0.github.io/assets/images/tokyo/hotel2.jpg",
-  "http://o0.github.io/assets/images/tokyo/hotel3.jpg"
+  'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
+  'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
+  'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
 ];
 
 var photosCount = photosList.length;
@@ -64,94 +66,94 @@ var MAX_LOCATION_X = 900;
 var MIN_LOCATION_Y = 150;
 var MAX_LOCATION_Y = 500;
 
-//объявляем массивы, в которые будем генерить рандомные значения
+// объявляем массивы, в которые будем генерить рандомные значения
 var randomAvatar = [];
 var randomTitle = [];
 var randomPhotos = [];
 var randomFeatures = [];
 
-//элементы для отрисовки
+// элементы для отрисовки
 var mapPins = document.querySelector('.map');
 var mapPinsListElement = mapPins.querySelector('.map__pins');
 var mapFiltersContainer = mapPins.querySelector('.map__filters-container');
 
-//генерим пустой массив объектов для объявлений
-for (i = 0; i < ITEMS_COUNT; i++){
+// генерим пустой массив объектов для объявлений
+for (var i = 0; i < ITEMS_COUNT; i++) {
   bookingItems[i] = {
-    "author": {},
-    "offer": {
-      "address": "{{location.x}}, {{location.y}}",
-      "description": ""
+    'author': {},
+    'offer': {
+      'address': '{location.x}}, {{location.y}}',
+      'description': ''
     },
-    "location": {}
+    'location': {}
   }
 }
 
-//рандомайзер в диапазоне
-function getRandomInt(min, max){
+// рандомайзер в диапазоне
+function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-//генерим массив индексов для урл-ов аватаров
-function generateAvatarsArray(count){
+// генерим массив индексов для урл-ов аватаров
+function generateAvatarsArray(count) {
   var i = 0;
-  while(i < count){
+  while (i < count){
     var randomAvatarIndex = getRandomInt(1, count);
-    if(randomAvatar.indexOf(randomAvatarIndex) < 0){
+    if (randomAvatar.indexOf(randomAvatarIndex) < 0) {
       randomAvatar[i] = randomAvatarIndex;
       i++;
     }
   }
 }
 
-//генерим массив уникальных заголовков
-function generateTitlesArray(count){
+// генерим массив уникальных заголовков
+function generateTitlesArray(count) {
   var i = 0;
-  while(i < count){
+  while (i < count) {
     var randomTitleIndex = getRandomInt(0, count - 1);
-    if(randomTitle.indexOf(titleList[randomTitleIndex]) < 0){
+    if (randomTitle.indexOf(titleList[randomTitleIndex]) < 0) {
       randomTitle[i] = titleList[randomTitleIndex];
       i++;
     }
   }
 }
 
-//генерим массив фотографий объявления
-function getPhotosArray(){
+// генерим массив фотографий объявления
+function getPhotosArray() {
   var i = 0;
-  while(i < photosCount){
-    var randomPhotoIndex = getRandomInt(0,photosCount - 1);
-    if(randomPhotos.indexOf(photosList[randomPhotoIndex]) < 0){
+  while (i < photosCount) {
+    var randomPhotoIndex = getRandomInt(0, photosCount - 1);
+    if (randomPhotos.indexOf(photosList[randomPhotoIndex]) < 0) {
       randomPhotos[i] = photosList[randomPhotoIndex];
-    i++;
+      i++;
     }
   }
   return randomPhotos;
 }
 
-//генерим массив фич квартиры
-function getFeaturesArray(n){
+// генерим массив фич квартиры
+function getFeaturesArray(n) {
   var i = 0;
-  while(i < n){
+  while (i < n) {
     var randomFeatureIndex = getRandomInt(0, featuresCount - 1);
-    if(randomFeatures.indexOf(featuresList[randomFeatureIndex]) < 0){
+    if (randomFeatures.indexOf(featuresList[randomFeatureIndex]) < 0) {
       randomFeatures[i] = featuresList[randomFeatureIndex];
-    i++;
+      i++;
     }
   }
   return randomFeatures;
 }
 
-//заполняем сгенерированными данными массив объявлений
-function generateBookingItems(count){
+// заполняем сгенерированными данными массив объявлений
+function generateBookingItems(count) {
   generateAvatarsArray(count);
   generateTitlesArray(titlesCount);
 
-  for(i = 0; i < count; i++){
+  for (var i = 0; i < count; i++) {
     var offer = bookingItems[i].offer;
     var location = bookingItems[i].location;
 
-    bookingItems[i].author.avatar = "img/avatars/user0" + randomAvatar[i] + ".png";
+    bookingItems[i].author.avatar = 'img/avatars/user0' + randomAvatar[i] + '.png';
 
     offer.title = randomTitle[i];
     offer.price = getRandomInt(MIN_PRICE, MAX_PRICE);
@@ -171,7 +173,7 @@ function generateBookingItems(count){
   }
 }
 
-function showMap(){
+function showMap() {
   mapPins.classList.remove('map--faded');
 }
 
@@ -182,15 +184,15 @@ var generatePins = function (bookingItems) {
   //var w = mapPinElement.querySelector('.map__pin').offsetWidth;
   //var h = mapPinElement.querySelector('.map__pin').offsetHeight;
   //console.log(w, h);
-  mapPinElement.style.left = (bookingItems.location.x - 25) + "px";
-  mapPinElement.style.top = (bookingItems.location.y - 70) + "px";
+  mapPinElement.style.left = (bookingItems.location.x - 25) + 'px';
+  mapPinElement.style.top = (bookingItems.location.y - 70) + 'px';
 
   mapPinElement.querySelector('img').setAttribute('src', bookingItems.author.avatar);
 
   return mapPinElement;
-}
+};
 
-function renderPins(){
+function renderPins() {
   var fragment = document.createDocumentFragment();
 
   for (var i = 0; i < bookingItems.length; i++) {
@@ -200,36 +202,36 @@ function renderPins(){
   mapPinsListElement.appendChild(fragment);
 }
 
-function generateBookingItem(content){
+function generateBookingItem(content) {
   var bookingItemTemplate = document.querySelector('template').content;
   var bookingItemElement = bookingItemTemplate.querySelector('.map__card').cloneNode(true);
   bookingItemElement.querySelector('h3').textContent = content.offer.title;
   bookingItemElement.querySelector('p small').textContent = content.offer.address;
   bookingItemElement.querySelector('.popup__price').textContent = content.offer.price + '&#x20bd;/ночь';
-  if(content.offer.type == 'flat'){
+  if (content.offer.type == 'flat') {
     bookingItemElement.querySelector('h4').textContent = 'Квартира';
-  } else if(content.offer.type == 'bungalo') {
+  } else if (content.offer.type == 'bungalo') {
     bookingItemElement.querySelector('h4').textContent = 'Бунгало';
-  } else if(content.offer.type == 'house') {
+  } else if (content.offer.type == 'house') {
     bookingItemElement.querySelector('h4').textContent = 'Дом';
   }
   bookingItemElement.querySelector('h4 + p').textContent = content.offer.rooms + ' комнаты для ' + content.offer.guests + ' гостей';
   bookingItemElement.querySelector('h4 + p + p').textContent = 'Заезд после ' + content.offer.checkin + ', выезд до ' + content.offer.checkout;
-  if(content.offer.features.indexOf('wifi') > 0){
+  if (content.offer.features.indexOf('wifi') > 0) {
     bookingItemElement.querySelector('.popup__features').appendChild('li.feature.feature--wifi');
-  } else if(content.offer.features.indexOf('dishwasher') > 0){
+  } else if (content.offer.features.indexOf('dishwasher') > 0) {
     bookingItemElement.querySelector('.popup__features').appendChild('li.feature.feature--dishwasher');
-  } else if(content.offer.features.indexOf('parking') > 0){
+  } else if (content.offer.features.indexOf('parking') > 0) {
     bookingItemElement.querySelector('.popup__features').appendChild('li.feature.feature--parking');
-  } else if(content.offer.features.indexOf('washer') > 0){
+  } else if (content.offer.features.indexOf('washer') > 0) {
     bookingItemElement.querySelector('.popup__features').appendChild('li.feature.feature--washer');
-  } else if(content.offer.features.indexOf('elevator') > 0){
+  } else if (content.offer.features.indexOf('elevator') > 0) {
     bookingItemElement.querySelector('.popup__features').appendChild('li.feature.feature--elevator');
-  } else if(content.offer.features.indexOf('conditioner') > 0){
+  } else if (content.offer.features.indexOf('conditioner') > 0) {
     bookingItemElement.querySelector('.popup__features').appendChild('li.feature.feature--conditioner');
   }
   bookingItemElement.querySelector('.popup__features + p').textContent = content.offer.description;
-  for(i = 0; i < photosCount; i++){
+  for (var i = 0; i < photosCount; i++) {
     bookingItemElement.querySelector('.popup__pictures li img').setAttribute('src', content.offer.photos[i]);
     bookingItemElement.querySelector('.popup__pictures li img').setAttribute('height', this.naturalHeight);
     bookingItemElement.querySelector('.popup__pictures li img').setAttribute('width', this.naturalWidth);
@@ -239,10 +241,10 @@ function generateBookingItem(content){
 
 
 
-function renderBookingItem(content){
-  var fragment = document.createDocumentFragment();
-  fragment.appendChild(generateBookingItem(content));
-  mapPins.insertBefore(fragment, mapFiltersContainer);
+function renderBookingItem(content) {
+
+  var element = document.createElement(generateBookingItem(content));
+  mapPins.insertBefore(element, mapFiltersContainer);
 }
 
 
