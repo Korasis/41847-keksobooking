@@ -204,7 +204,7 @@ function renderPins() {
 
 function generateBookingItem(content) {
 
-  var bookingItemTemplate = document.querySelector('template').content;
+  // var bookingItemTemplate = document.querySelector('template').content;
   // var bookingItemElement = bookingItemTemplate.querySelector('article').cloneNode(true);
   var card = document.createElement('article');
   card.setAttribute('class', 'map__card popup');
