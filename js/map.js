@@ -78,8 +78,8 @@ var mapPinsListElement = mapPins.querySelector('.map__pins');
 var mapFiltersContainer = mapPins.querySelector('.map__filters-container');
 
 // генерим пустой массив объектов для объявлений
-for (var i = 0; i < ITEMS_COUNT; i++) {
-  bookingItems[i] = {
+for (var k = 0; k < ITEMS_COUNT; k++) {
+  bookingItems[k] = {
     'author': {},
     'offer': {
       'address': '{location.x}}, {{location.y}}',
