@@ -217,18 +217,18 @@ function generateBookingItem(content) {
   }
   bookingItemElement.querySelector('h4 + p').textContent = content.offer.rooms + ' комнаты для ' + content.offer.guests + ' гостей';
   bookingItemElement.querySelector('h4 + p + p').textContent = 'Заезд после ' + content.offer.checkin + ', выезд до ' + content.offer.checkout;
-  if (content.offer.features.indexOf('wifi') > 0) {
-    bookingItemElement.querySelector('.popup__features').appendChild('li.feature.feature--wifi');
-  } else if (content.offer.features.indexOf('dishwasher') > 0) {
-    bookingItemElement.querySelector('.popup__features').appendChild('li.feature.feature--dishwasher');
-  } else if (content.offer.features.indexOf('parking') > 0) {
-    bookingItemElement.querySelector('.popup__features').appendChild('li.feature.feature--parking');
-  } else if (content.offer.features.indexOf('washer') > 0) {
-    bookingItemElement.querySelector('.popup__features').appendChild('li.feature.feature--washer');
-  } else if (content.offer.features.indexOf('elevator') > 0) {
-    bookingItemElement.querySelector('.popup__features').appendChild('li.feature.feature--elevator');
-  } else if (content.offer.features.indexOf('conditioner') > 0) {
-    bookingItemElement.querySelector('.popup__features').appendChild('li.feature.feature--conditioner');
+  if (content.offer.features.indexOf('wifi') < 0) {
+    bookingItemElement.querySelector('.feature--wifi').setAttribute('hidden', 'true');
+  } else if (content.offer.features.indexOf('dishwasher') < 0) {
+    bookingItemElement.querySelector('.feature--dishwasher').setAttribute('hidden', 'true');
+  } else if (content.offer.features.indexOf('parking') < 0) {
+    bookingItemElement.querySelector('.feature--parking').setAttribute('hidden', 'true');
+  } else if (content.offer.features.indexOf('washer') < 0) {
+    bookingItemElement.querySelector('.feature--washer').setAttribute('hidden', 'true');
+  } else if (content.offer.features.indexOf('elevator') < 0) {
+    bookingItemElement.querySelector('.feature--elevator').setAttribute('hidden', 'true');
+  } else if (content.offer.features.indexOf('conditioner') < 0) {
+    bookingItemElement.querySelector('.feature--conditioner').setAttribute('hidden', 'true');
   }
   bookingItemElement.querySelector('.popup__features + p').textContent = content.offer.description;
   for (var j = 0; j < photosCount; j++) {
@@ -241,9 +241,10 @@ function generateBookingItem(content) {
 
 
 function renderBookingItem(content) {
-
-  var element = document.createElement(generateBookingItem(content));
-  mapPins.insertBefore(element, mapFiltersContainer);
+  var fragment = document.createDocumentFragment(generateBookingItem(content));
+  mapPins.insertBefore(fragment, mapFiltersContainer);
+  //var element = document.createElement(generateBookingItem(content));
+  //mapPins.insertBefore(element, mapFiltersContainer);
 }
 
 
