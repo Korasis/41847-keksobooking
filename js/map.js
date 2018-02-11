@@ -205,7 +205,7 @@ function renderPins() {
 function generateBookingItem(content) {
 
   var bookingItemTemplate = document.querySelector('template').content;
-  var bookingItemElement = bookingItemTemplate.querySelector('article').cloneNode(true);
+  // var bookingItemElement = bookingItemTemplate.querySelector('article').cloneNode(true);
   var card = document.createElement('article');
   card.setAttribute('class', 'map__card popup');
 
@@ -239,38 +239,38 @@ function generateBookingItem(content) {
   card.querySelector('ul').setAttribute('class', 'popup__features');
 
   var tempFeatures = content.offer.features;
-  for (var k = 0; k < content.offer.features.length; k++) {
+  for (var j = 0; j < content.offer.features.length; j++) {
     card.querySelector('.popup__features').appendChild(document.createElement('li'));
 
-    if (!card.querySelectorAll('li')[k].hasAttribute('class')) {
+    if (!card.querySelectorAll('li')[j].hasAttribute('class')) {
       if (tempFeatures.indexOf('wifi') > 0) {
-        card.querySelectorAll('li')[k].setAttribute('class', 'feature feature--wifi');
+        card.querySelectorAll('li')[j].setAttribute('class', 'feature feature--wifi');
         var featureIndex = tempFeatures.indexOf('wifi');
         tempFeatures[featureIndex] = '';
       }
       if (tempFeatures.indexOf('dishwasher') > 0) {
-        card.querySelectorAll('li')[k].setAttribute('class', 'feature feature--dishwasher');
-        var featureIndex = tempFeatures.indexOf('dishwasher');
+        card.querySelectorAll('li')[j].setAttribute('class', 'feature feature--dishwasher');
+        featureIndex = tempFeatures.indexOf('dishwasher');
         tempFeatures[featureIndex] = '';
       }
       if (tempFeatures.indexOf('parking') > 0) {
-        card.querySelectorAll('li')[k].setAttribute('class', 'feature feature--parking');
-        var featureIndex = tempFeatures.indexOf('parking');
+        card.querySelectorAll('li')[j].setAttribute('class', 'feature feature--parking');
+        featureIndex = tempFeatures.indexOf('parking');
         tempFeatures[featureIndex] = '';
       }
       if (tempFeatures.indexOf('washer') > 0) {
-        card.querySelectorAll('li')[k].setAttribute('class', 'feature feature--washer');
-        var featureIndex = tempFeatures.indexOf('washer');
+        card.querySelectorAll('li')[j].setAttribute('class', 'feature feature--washer');
+        featureIndex = tempFeatures.indexOf('washer');
         tempFeatures[featureIndex] = '';
       }
       if (tempFeatures.indexOf('elevator') > 0) {
-        card.querySelectorAll('li')[k].setAttribute('class', 'feature feature--elevator');
-        var featureIndex = tempFeatures.indexOf('elevator');
+        card.querySelectorAll('li')[j].setAttribute('class', 'feature feature--elevator');
+        featureIndex = tempFeatures.indexOf('elevator');
         tempFeatures[featureIndex] = '';
       }
       if (tempFeatures.indexOf('conditioner') > 0) {
-        card.querySelectorAll('li')[k].setAttribute('class', 'feature feature--conditioner');
-        var featureIndex = tempFeatures.indexOf('conditioner');
+        card.querySelectorAll('li')[j].setAttribute('class', 'feature feature--conditioner');
+        featureIndex = tempFeatures.indexOf('conditioner');
         tempFeatures[featureIndex] = '';
       }
     }
