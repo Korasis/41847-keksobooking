@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var ITEMS_COUNT = 8; // константа для количества объявлений
 var bookingItems = []; // объявляем массив объявлений о квартирах
@@ -86,7 +86,7 @@ for (var i = 0; i < ITEMS_COUNT; i++) {
       'description': ''
     },
     'location': {}
-  }
+  };
 }
 
 // рандомайзер в диапазоне
@@ -96,36 +96,36 @@ function getRandomInt(min, max) {
 
 // генерим массив индексов для урл-ов аватаров
 function generateAvatarsArray(count) {
-  var i = 0;
-  while (i < count){
+  var j = 0;
+  while (j < count) {
     var randomAvatarIndex = getRandomInt(1, count);
     if (randomAvatar.indexOf(randomAvatarIndex) < 0) {
-      randomAvatar[i] = randomAvatarIndex;
-      i++;
+      randomAvatar[j] = randomAvatarIndex;
+      j++;
     }
   }
 }
 
 // генерим массив уникальных заголовков
 function generateTitlesArray(count) {
-  var i = 0;
-  while (i < count) {
+  var j = 0;
+  while (j < count) {
     var randomTitleIndex = getRandomInt(0, count - 1);
     if (randomTitle.indexOf(titleList[randomTitleIndex]) < 0) {
-      randomTitle[i] = titleList[randomTitleIndex];
-      i++;
+      randomTitle[j] = titleList[randomTitleIndex];
+      j++;
     }
   }
 }
 
 // генерим массив фотографий объявления
 function getPhotosArray() {
-  var i = 0;
-  while (i < photosCount) {
+  var j = 0;
+  while (j < photosCount) {
     var randomPhotoIndex = getRandomInt(0, photosCount - 1);
     if (randomPhotos.indexOf(photosList[randomPhotoIndex]) < 0) {
-      randomPhotos[i] = photosList[randomPhotoIndex];
-      i++;
+      randomPhotos[j] = photosList[randomPhotoIndex];
+      j++;
     }
   }
   return randomPhotos;
@@ -133,12 +133,12 @@ function getPhotosArray() {
 
 // генерим массив фич квартиры
 function getFeaturesArray(n) {
-  var i = 0;
-  while (i < n) {
+  var j = 0;
+  while (j < n) {
     var randomFeatureIndex = getRandomInt(0, featuresCount - 1);
     if (randomFeatures.indexOf(featuresList[randomFeatureIndex]) < 0) {
-      randomFeatures[i] = featuresList[randomFeatureIndex];
-      i++;
+      randomFeatures[j] = featuresList[randomFeatureIndex];
+      j++;
     }
   }
   return randomFeatures;
@@ -177,17 +177,17 @@ function showMap() {
   mapPins.classList.remove('map--faded');
 }
 
-var generatePins = function (bookingItems) {
+var generatePins = function (bookingItem) {
   var mapPinTemplate = document.querySelector('template').content;
   var mapPinElement = mapPinTemplate.querySelector('.map__pin').cloneNode(true);
 
-  //var w = mapPinElement.querySelector('.map__pin').offsetWidth;
-  //var h = mapPinElement.querySelector('.map__pin').offsetHeight;
-  //console.log(w, h);
-  mapPinElement.style.left = (bookingItems.location.x - 25) + 'px';
-  mapPinElement.style.top = (bookingItems.location.y - 70) + 'px';
+  // var w = mapPinElement.querySelector('.map__pin').offsetWidth;
+  // var h = mapPinElement.querySelector('.map__pin').offsetHeight;
+  // console.log(w, h);
+  mapPinElement.style.left = (bookingItem.location.x - 25) + 'px';
+  mapPinElement.style.top = (bookingItem.location.y - 70) + 'px';
 
-  mapPinElement.querySelector('img').setAttribute('src', bookingItems.author.avatar);
+  mapPinElement.querySelector('img').setAttribute('src', bookingItem.author.avatar);
 
   return mapPinElement;
 };
@@ -233,12 +233,11 @@ function generateBookingItem(content) {
   bookingItemElement.querySelector('.popup__features + p').textContent = content.offer.description;
   for (var i = 0; i < photosCount; i++) {
     bookingItemElement.querySelector('.popup__pictures li img').setAttribute('src', content.offer.photos[i]);
-    bookingItemElement.querySelector('.popup__pictures li img').setAttribute('height', this.naturalHeight);
-    bookingItemElement.querySelector('.popup__pictures li img').setAttribute('width', this.naturalWidth);
+    // bookingItemElement.querySelector('.popup__pictures li img').setAttribute('height', this.naturalHeight);
+    // bookingItemElement.querySelector('.popup__pictures li img').setAttribute('width', this.naturalWidth);
   }
-  mapPinElement.querySelector('.popup__avatar').setAttribute('src', content.author.avatar);
+  bookingItemElement.querySelector('.popup__avatar').setAttribute('src', content.author.avatar);
 }
-
 
 
 function renderBookingItem(content) {
