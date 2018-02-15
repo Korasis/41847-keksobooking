@@ -181,9 +181,6 @@ var generatePins = function (bookingItem) {
   var mapPinTemplate = document.querySelector('template').content;
   var mapPinElement = mapPinTemplate.querySelector('.map__pin').cloneNode(true);
 
-  // var w = mapPinElement.querySelector('.map__pin').offsetWidth;
-  // var h = mapPinElement.querySelector('.map__pin').offsetHeight;
-  // console.log(w, h);
   mapPinElement.style.left = (bookingItem.location.x - 25) + 'px';
   mapPinElement.style.top = (bookingItem.location.y - 70) + 'px';
 
@@ -203,10 +200,11 @@ function renderPins() {
 }
 
 function generateBookingItem(content) {
-
-  // var bookingItemTemplate = document.querySelector('template').content;
-  // var bookingItemElement = bookingItemTemplate.querySelector('article').cloneNode(true);
   var card = document.createElement('article');
+
+  card.appendChild(document.createElement('img'));
+  card.querySelector('img').setAttribute('src', content.author.avatar);
+
   card.setAttribute('class', 'map__card popup');
 
   card.appendChild(document.createElement('h3'));
@@ -239,51 +237,53 @@ function generateBookingItem(content) {
   card.querySelector('ul').setAttribute('class', 'popup__features');
 
   var tempFeatures = content.offer.features;
+
+  function renderFeatureElement(featureName, index) {
+    if (tempFeatures.indexOf(featureName) >= 0) {
+        card.querySelectorAll('li')[index].setAttribute('class', 'feature feature--' + featureName);
+        var featureIndex = tempFeatures.indexOf(featureName);
+        tempFeatures[featureIndex] = '';
+
+      }
+  }
+
   for (var j = 0; j < content.offer.features.length; j++) {
     card.querySelector('.popup__features').appendChild(document.createElement('li'));
-
     if (!card.querySelectorAll('li')[j].hasAttribute('class')) {
-      if (tempFeatures.indexOf('wifi') > 0) {
-        card.querySelectorAll('li')[j].setAttribute('class', 'feature feature--wifi');
-        var featureIndex = tempFeatures.indexOf('wifi');
-        tempFeatures[featureIndex] = '';
-      }
-      if (tempFeatures.indexOf('dishwasher') > 0) {
-        card.querySelectorAll('li')[j].setAttribute('class', 'feature feature--dishwasher');
-        featureIndex = tempFeatures.indexOf('dishwasher');
-        tempFeatures[featureIndex] = '';
-      }
-      if (tempFeatures.indexOf('parking') > 0) {
-        card.querySelectorAll('li')[j].setAttribute('class', 'feature feature--parking');
-        featureIndex = tempFeatures.indexOf('parking');
-        tempFeatures[featureIndex] = '';
-      }
-      if (tempFeatures.indexOf('washer') > 0) {
-        card.querySelectorAll('li')[j].setAttribute('class', 'feature feature--washer');
-        featureIndex = tempFeatures.indexOf('washer');
-        tempFeatures[featureIndex] = '';
-      }
-      if (tempFeatures.indexOf('elevator') > 0) {
-        card.querySelectorAll('li')[j].setAttribute('class', 'feature feature--elevator');
-        featureIndex = tempFeatures.indexOf('elevator');
-        tempFeatures[featureIndex] = '';
-      }
-      if (tempFeatures.indexOf('conditioner') > 0) {
-        card.querySelectorAll('li')[j].setAttribute('class', 'feature feature--conditioner');
-        featureIndex = tempFeatures.indexOf('conditioner');
-        tempFeatures[featureIndex] = '';
-      }
+      renderFeatureElement(tempFeatures[j], j);
+      continue;
     }
   }
 
+  card.appendChild(document.createElement('p'));
+  card.querySelector('.popup__features + p').textContent = content.offer.description;
 
-  /* bookingItemElement.querySelector('.popup__features + p').textContent = content.offer.description;
-  for (var j = 0; j < photosCount; j++) {
-    bookingItemElement.querySelector('.popup__pictures li img').setAttribute('src', content.offer.photos[j]);
-    // bookingItemElement.querySelector('.popup__pictures li img').setAttribute('height', this.naturalHeight);
-    // bookingItemElement.querySelector('.popup__pictures li img').setAttribute('width', this.naturalWidth);
+  card.appendChild(document.createElement('ul'));
+  card.querySelector('ul + p + ul').setAttribute('class', 'popup__pictures');
+
+  var tempPhotos = content.offer.photos;
+
+  function renderPhotoElement(photoSrc, index) {
+    if (tempPhotos.indexOf(photoSrc) >= 0) {
+        var photoElementSelector = card.querySelector('.popup__pictures');
+        photoElementSelector.querySelectorAll('li')[index].querySelector('img').setAttribute('src', photoSrc);
+        photoElementSelector.querySelectorAll('li')[index].querySelector('img').setAttribute('height', '30%');
+        photoElementSelector.querySelectorAll('li')[index].querySelector('img').setAttribute('width', '30%');
+        var photosIndex = tempPhotos.indexOf(photoSrc);
+        tempPhotos[photosIndex] = '';
+
+      }
   }
-  bookingItemElement.querySelector('.popup__avatar').setAttribute('src', content.author.avatar); */
+
+  for (var k = 0; k < photosCount; k++) {
+    card.querySelector('.popup__pictures').appendChild(document.createElement('li'));
+    card.querySelector('.popup__pictures').querySelectorAll('li')[k].appendChild(document.createElement('img'));
+    if (!card.querySelector('.popup__pictures').querySelectorAll('li')[k].querySelector('img').hasAttribute('src')) {
+      renderPhotoElement(tempPhotos[k], k);
+      continue;
+    }
+  }
+
   return card;
 }
 
