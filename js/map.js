@@ -233,10 +233,10 @@ function generateBookingItem(content) {
     }
   }
 
-  for (var j = 0; j < content.offer.features.length; j++) {
+  for (var i = 0; i < content.offer.features.length; i++) {
     card.querySelector('.popup__features').appendChild(document.createElement('li'));
-    if (!card.querySelectorAll('li')[j].hasAttribute('class')) {
-      renderFeatureElement(tempFeatures[j], j);
+    if (!card.querySelectorAll('li')[i].hasAttribute('class')) {
+      renderFeatureElement(tempFeatures[i], i);
     }
   }
 
