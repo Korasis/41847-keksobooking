@@ -124,7 +124,7 @@ function getRandomArray(array, n) {
 // заполняем сгенерированными данными массив объявлений
 function generateBookingItems(count) {
   randomAvatar = generateRandomIndex(count);
-  var randomTitleIndex = generateRandomIndex(count);
+  var randomTitleIndex = generateRandomIndex(titlesCount);
   randomFeatures = getRandomArray(featuresList, getRandomInt(1, featuresCount));
   randomPhotos = getRandomArray(photosList, photosCount);
 
@@ -135,7 +135,7 @@ function generateBookingItems(count) {
     randomTitle[i] = titleList[j - 1];
     bookingItems[i] = {
       'author': {
-        'avatar' : 'img/avatars/user0' + randomAvatar[i] + '.png'
+        'avatar': 'img/avatars/user0' + randomAvatar[i] + '.png'
       },
       'offer': {
         'title': randomTitle[i],
@@ -153,7 +153,7 @@ function generateBookingItems(count) {
         'x': x,
         'y': y
       }
-    }
+    };
 
     randomFeatures = [];
     randomPhotos = [];
@@ -227,11 +227,10 @@ function generateBookingItem(content) {
 
   function renderFeatureElement(featureName, index) {
     if (tempFeatures.indexOf(featureName) >= 0) {
-        card.querySelectorAll('li')[index].setAttribute('class', 'feature feature--' + featureName);
-        var featureIndex = tempFeatures.indexOf(featureName);
-        tempFeatures[featureIndex] = '';
-
-      }
+      card.querySelectorAll('li')[index].setAttribute('class', 'feature feature--' + featureName);
+      var featureIndex = tempFeatures.indexOf(featureName);
+      tempFeatures[featureIndex] = '';
+    }
   }
 
   for (var j = 0; j < content.offer.features.length; j++) {
@@ -251,21 +250,20 @@ function generateBookingItem(content) {
 
   function renderPhotoElement(photoSrc, index) {
     if (tempPhotos.indexOf(photoSrc) >= 0) {
-        var photoElementSelector = card.querySelector('.popup__pictures');
-        photoElementSelector.querySelectorAll('li')[index].querySelector('img').setAttribute('src', photoSrc);
-        photoElementSelector.querySelectorAll('li')[index].querySelector('img').setAttribute('height', '30%');
-        photoElementSelector.querySelectorAll('li')[index].querySelector('img').setAttribute('width', '30%');
-        var photosIndex = tempPhotos.indexOf(photoSrc);
-        tempPhotos[photosIndex] = '';
-
-      }
+      var photoElementSelector = card.querySelector('.popup__pictures');
+      photoElementSelector.querySelectorAll('li')[index].querySelector('img').setAttribute('src', photoSrc);
+      photoElementSelector.querySelectorAll('li')[index].querySelector('img').setAttribute('height', '30%');
+      photoElementSelector.querySelectorAll('li')[index].querySelector('img').setAttribute('width', '30%');
+      var photosIndex = tempPhotos.indexOf(photoSrc);
+      tempPhotos[photosIndex] = '';
+    }
   }
 
-  for (var k = 0; k < photosCount; k++) {
+  for (var j = 0; j < photosCount; j++) {
     card.querySelector('.popup__pictures').appendChild(document.createElement('li'));
-    card.querySelector('.popup__pictures').querySelectorAll('li')[k].appendChild(document.createElement('img'));
-    if (!card.querySelector('.popup__pictures').querySelectorAll('li')[k].querySelector('img').hasAttribute('src')) {
-      renderPhotoElement(tempPhotos[k], k);
+    card.querySelector('.popup__pictures').querySelectorAll('li')[j].appendChild(document.createElement('img'));
+    if (!card.querySelector('.popup__pictures').querySelectorAll('li')[j].querySelector('img').hasAttribute('src')) {
+      renderPhotoElement(tempPhotos[j], j);
     }
   }
 
