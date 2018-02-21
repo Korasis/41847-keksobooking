@@ -91,82 +91,69 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-// генерим массив индексов для урл-ов аватаров
-function generateAvatarsArray(count) {
+// рандомайзер индексов массивов - для аватарки и заголовка
+function generateRandomIndex(count) {
   var j = 0;
+  var tempArr = [];
   while (j < count) {
-    var randomAvatarIndex = getRandomInt(1, count);
-    if (randomAvatar.indexOf(randomAvatarIndex) < 0) {
-      randomAvatar[j] = randomAvatarIndex;
+    var randomContentIndex = getRandomInt(1, count);
+
+    if (tempArr.indexOf(randomContentIndex) < 0) {
+      tempArr[j] = randomContentIndex;
       j++;
     }
   }
+
+  return tempArr;
 }
 
-// генерим массив уникальных заголовков
-function generateTitlesArray(count) {
+// рандомайзер массивов - для фич и фотографий
+function getRandomArray(array, n) {
   var j = 0;
-  while (j < count) {
-    var randomTitleIndex = getRandomInt(0, count - 1);
-    if (randomTitle.indexOf(titleList[randomTitleIndex]) < 0) {
-      randomTitle[j] = titleList[randomTitleIndex];
-      j++;
-    }
-  }
-}
-
-// генерим массив фотографий объявления
-function getPhotosArray() {
-  var j = 0;
-  while (j < photosCount) {
-    var randomPhotoIndex = getRandomInt(0, photosCount - 1);
-    if (randomPhotos.indexOf(photosList[randomPhotoIndex]) < 0) {
-      randomPhotos[j] = photosList[randomPhotoIndex];
-      j++;
-    }
-  }
-  return randomPhotos;
-}
-
-// генерим массив фич квартиры
-function getFeaturesArray(n) {
-  var j = 0;
+  var randomArray = [];
   while (j < n) {
-    var randomFeatureIndex = getRandomInt(0, featuresCount - 1);
-    if (randomFeatures.indexOf(featuresList[randomFeatureIndex]) < 0) {
-      randomFeatures[j] = featuresList[randomFeatureIndex];
+    var randomArrayIndex = getRandomInt(0, array.length - 1);
+    if (randomArray.indexOf(array[randomArrayIndex]) < 0) {
+      randomArray[j] = array[randomArrayIndex];
       j++;
     }
   }
-  return randomFeatures;
+  return randomArray;
 }
 
 // заполняем сгенерированными данными массив объявлений
 function generateBookingItems(count) {
-  generateAvatarsArray(count);
-  generateTitlesArray(titlesCount);
+  randomAvatar = generateRandomIndex(count);
+  var randomTitleIndex = generateRandomIndex(count);
+  randomFeatures = getRandomArray(featuresList, getRandomInt(1, featuresCount));
+  randomPhotos = getRandomArray(photosList, photosCount);
 
   for (var i = 0; i < count; i++) {
-    var offer = bookingItems[i].offer;
-    var location = bookingItems[i].location;
-
-    bookingItems[i].author.avatar = 'img/avatars/user0' + randomAvatar[i] + '.png';
-
-    offer.title = randomTitle[i];
-
-    location.x = getRandomInt(MIN_LOCATION_X, MAX_LOCATION_X);
-    location.y = getRandomInt(MIN_LOCATION_Y, MAX_LOCATION_Y);
-
-    offer.address = location.x + ', ' + location.y;
-
-    offer.price = getRandomInt(MIN_PRICE, MAX_PRICE);
-    offer.type = typeList[getRandomInt(0, typesCount - 1)];
-    offer.rooms = getRandomInt(MIN_ROOMS, MAX_ROOMS);
-    offer.guests = getRandomInt(MIN_GUESTS, MAX_GUESTS);
-    offer.checkin = checkTimeList[getRandomInt(0, ckeckTimesCount - 1)];
-    offer.checkout = checkTimeList[getRandomInt(0, ckeckTimesCount - 1)];
-    offer.features = getFeaturesArray(getRandomInt(1, featuresCount));
-    offer.photos = getPhotosArray();
+    var x = getRandomInt(MIN_LOCATION_X, MAX_LOCATION_X);
+    var y = getRandomInt(MIN_LOCATION_Y, MAX_LOCATION_Y);
+    var j = randomTitleIndex[i];
+    randomTitle[i] = titleList[j - 1];
+    bookingItems[i] = {
+      'author': {
+        'avatar' : 'img/avatars/user0' + randomAvatar[i] + '.png'
+      },
+      'offer': {
+        'title': randomTitle[i],
+        'address': x + ', ' + y,
+        'price': getRandomInt(MIN_PRICE, MAX_PRICE),
+        'type': typeList[getRandomInt(0, typesCount - 1)],
+        'rooms': getRandomInt(MIN_ROOMS, MAX_ROOMS),
+        'guests': getRandomInt(MIN_GUESTS, MAX_GUESTS),
+        'checkin': checkTimeList[getRandomInt(0, ckeckTimesCount - 1)],
+        'checkout': checkTimeList[getRandomInt(0, ckeckTimesCount - 1)],
+        'features': randomFeatures,
+        'photos': randomPhotos
+      },
+      'location': {
+        'x': x,
+        'y': y
+      }
+    }
 
     randomFeatures = [];
     randomPhotos = [];
@@ -251,7 +238,6 @@ function generateBookingItem(content) {
     card.querySelector('.popup__features').appendChild(document.createElement('li'));
     if (!card.querySelectorAll('li')[j].hasAttribute('class')) {
       renderFeatureElement(tempFeatures[j], j);
-      continue;
     }
   }
 
@@ -280,7 +266,6 @@ function generateBookingItem(content) {
     card.querySelector('.popup__pictures').querySelectorAll('li')[k].appendChild(document.createElement('img'));
     if (!card.querySelector('.popup__pictures').querySelectorAll('li')[k].querySelector('img').hasAttribute('src')) {
       renderPhotoElement(tempPhotos[k], k);
-      continue;
     }
   }
 
