@@ -1,6 +1,26 @@
 'use strict';
 
 var ITEMS_COUNT = 8; // константа для количества объявлений
+
+var MIN_LOCATION_X = 300;
+var MAX_LOCATION_X = 900;
+var MIN_LOCATION_Y = 150;
+var MAX_LOCATION_Y = 500;
+
+var PIN_SIZE = 65;
+var PIN_ARROW_HEIGHT = 22;
+
+// элементы для отрисовки
+var mapPins = document.querySelector('.map');
+var mapPinsListElement = mapPins.querySelector('.map__pins');
+
+var mapFiltersContainer = mapPins.querySelector('.map__filters-container');
+
+// элементы формы
+var fieldsetArray = document.querySelector('.notice__form').querySelectorAll('fieldset');
+var formElement = document.querySelector('.notice__form');
+var pinButton = document.querySelector('.map__pin--main');
+
 var bookingItems = []; // объявляем массив объявлений о квартирах
 
 // массивы заданных значений
@@ -61,21 +81,11 @@ var photosList = [
 
 var photosCount = photosList.length;
 
-var MIN_LOCATION_X = 300;
-var MAX_LOCATION_X = 900;
-var MIN_LOCATION_Y = 150;
-var MAX_LOCATION_Y = 500;
-
 // объявляем массивы, в которые будем генерить рандомные значения
 var randomAvatar = [];
 var randomTitle = [];
 var randomPhotos = [];
 var randomFeatures = [];
-
-// элементы для отрисовки
-var mapPins = document.querySelector('.map');
-var mapPinsListElement = mapPins.querySelector('.map__pins');
-var mapFiltersContainer = mapPins.querySelector('.map__filters-container');
 
 // генерим пустой массив объектов для объявлений
 for (var k = 0; k < ITEMS_COUNT; k++) {
@@ -125,14 +135,15 @@ function getRandomArray(array, n) {
 function generateBookingItems(count) {
   randomAvatar = generateRandomIndex(count);
   var randomTitleIndex = generateRandomIndex(titlesCount);
-  randomFeatures = getRandomArray(featuresList, getRandomInt(1, featuresCount));
-  randomPhotos = getRandomArray(photosList, photosCount);
+
 
   for (var i = 0; i < count; i++) {
     var x = getRandomInt(MIN_LOCATION_X, MAX_LOCATION_X);
     var y = getRandomInt(MIN_LOCATION_Y, MAX_LOCATION_Y);
     var j = randomTitleIndex[i];
     randomTitle[i] = titleList[j - 1];
+    randomFeatures = getRandomArray(featuresList, getRandomInt(1, featuresCount));
+    randomPhotos = getRandomArray(photosList, photosCount);
     bookingItems[i] = {
       'author': {
         'avatar': 'img/avatars/user0' + randomAvatar[i] + '.png'
@@ -160,18 +171,23 @@ function generateBookingItems(count) {
   }
 }
 
-function showMap() {
-  mapPins.classList.remove('map--faded');
-}
-
-var generatePins = function (bookingItem) {
+var generatePins = function (bookingItem, index) {
   var mapPinTemplate = document.querySelector('template').content;
   var mapPinElement = mapPinTemplate.querySelector('.map__pin').cloneNode(true);
+  var pinId = 'booking_item_' + index;
 
   mapPinElement.style.left = (bookingItem.location.x - 25) + 'px';
   mapPinElement.style.top = (bookingItem.location.y - 70) + 'px';
 
   mapPinElement.querySelector('img').setAttribute('src', bookingItem.author.avatar);
+  mapPinElement.setAttribute('id', pinId);
+
+  mapPinElement.onclick = function() {
+    if (mapPins.querySelector('.map__card')) {
+      mapPins.removeChild(mapPins.querySelector('.map__card'));
+    }
+    renderBookingItem(bookingItems[index]);
+  }
 
   return mapPinElement;
 };
@@ -180,7 +196,7 @@ function renderPins() {
   var fragment = document.createDocumentFragment();
 
   for (var j = 0; j < bookingItems.length; j++) {
-    fragment.appendChild(generatePins(bookingItems[j]));
+    fragment.appendChild(generatePins(bookingItems[j], j));
   }
 
   mapPinsListElement.appendChild(fragment);
@@ -275,8 +291,60 @@ function renderBookingItem(content) {
   mapPins.insertBefore(generateBookingItem(content), mapFiltersContainer);
 }
 
+function disableFormElements() {
+  for (var i = 0; i < fieldsetArray.length; i++) {
+      fieldsetArray[i].setAttribute('disabled', 'disabled');
+  }
+}
+
+function enableFormElements() {
+  formElement.classList.remove('notice__form--disabled');
+  for (var i = 0; i < fieldsetArray.length; i++) {
+      fieldsetArray[i].removeAttribute('disabled');
+  }
+}
+
+function showMap() {
+  mapPins.classList.remove('map--faded');
+}
+
+function getAddress() {
+  var address = '';
+  var addressX = 0;
+  var addressY = 0;
+
+  if (document.querySelector('.map--faded')){
+    addressX = pinButton.offsetLeft + 0.5 * PIN_SIZE;
+    addressY = pinButton.offsetTop + 0.5 * PIN_SIZE;
+  } else {
+    addressX = pinButton.offsetLeft + 0.5 * PIN_SIZE;
+    addressY = pinButton.offsetTop + PIN_SIZE + PIN_ARROW_HEIGHT;
+  }
+
+  return address = addressX + ', ' + addressY;
+}
+
+function setAddress() {
+  var address = getAddress();
+  document.querySelector('#address').setAttribute('value', address);
+}
 
 generateBookingItems(ITEMS_COUNT);
-showMap();
-renderPins();
-renderBookingItem(bookingItems[0]);
+setAddress();
+
+var pinButtonMouseupHandler = function() {
+  enableFormElements();
+  showMap();
+  setAddress();
+  renderPins();
+}
+
+var showCard = function(index) {
+  renderBookingItem(bookingItems[index]);
+}
+
+if (document.querySelector('.notice__form--disabled')) {
+  disableFormElements();
+}
+
+pinButton.addEventListener ('mouseup', pinButtonMouseupHandler);
