@@ -182,12 +182,12 @@ var generatePins = function (bookingItem, index) {
   mapPinElement.querySelector('img').setAttribute('src', bookingItem.author.avatar);
   mapPinElement.setAttribute('id', pinId);
 
-  mapPinElement.onclick = function() {
+  mapPinElement.onclick = function () {
     if (mapPins.querySelector('.map__card')) {
       mapPins.removeChild(mapPins.querySelector('.map__card'));
     }
     renderBookingItem(bookingItems[index]);
-  }
+  };
 
   return mapPinElement;
 };
@@ -293,14 +293,14 @@ function renderBookingItem(content) {
 
 function disableFormElements() {
   for (var i = 0; i < fieldsetArray.length; i++) {
-      fieldsetArray[i].setAttribute('disabled', 'disabled');
+    fieldsetArray[i].setAttribute('disabled', 'disabled');
   }
 }
 
 function enableFormElements() {
   formElement.classList.remove('notice__form--disabled');
   for (var i = 0; i < fieldsetArray.length; i++) {
-      fieldsetArray[i].removeAttribute('disabled');
+    fieldsetArray[i].removeAttribute('disabled');
   }
 }
 
@@ -313,7 +313,7 @@ function getAddress() {
   var addressX = 0;
   var addressY = 0;
 
-  if (document.querySelector('.map--faded')){
+  if (document.querySelector('.map--faded')) {
     addressX = pinButton.offsetLeft + 0.5 * PIN_SIZE;
     addressY = pinButton.offsetTop + 0.5 * PIN_SIZE;
   } else {
@@ -321,7 +321,9 @@ function getAddress() {
     addressY = pinButton.offsetTop + PIN_SIZE + PIN_ARROW_HEIGHT;
   }
 
-  return address = addressX + ', ' + addressY;
+  address = addressX + ', ' + addressY;
+
+  return address;
 }
 
 function setAddress() {
@@ -332,19 +334,15 @@ function setAddress() {
 generateBookingItems(ITEMS_COUNT);
 setAddress();
 
-var pinButtonMouseupHandler = function() {
+var pinButtonMouseupHandler = function () {
   enableFormElements();
   showMap();
   setAddress();
   renderPins();
-}
-
-var showCard = function(index) {
-  renderBookingItem(bookingItems[index]);
-}
+};
 
 if (document.querySelector('.notice__form--disabled')) {
   disableFormElements();
 }
 
-pinButton.addEventListener ('mouseup', pinButtonMouseupHandler);
+pinButton.addEventListener('mouseup', pinButtonMouseupHandler);
