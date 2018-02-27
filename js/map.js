@@ -293,14 +293,14 @@ function renderBookingItem(content) {
 
 function disableFormElements() {
   for (var i = 0; i < fieldsetArray.length; i++) {
-    fieldsetArray[i].setAttribute('disabled', 'disabled');
+    fieldsetArray[i].disabled = true;
   }
 }
 
 function enableFormElements() {
   formElement.classList.remove('notice__form--disabled');
   for (var i = 0; i < fieldsetArray.length; i++) {
-    fieldsetArray[i].removeAttribute('disabled');
+    fieldsetArray[i].disabled = false;
   }
 }
 
@@ -314,10 +314,10 @@ function getAddress() {
   var addressY = 0;
 
   if (document.querySelector('.map--faded')) {
-    addressX = pinButton.offsetLeft + 0.5 * PIN_SIZE;
-    addressY = pinButton.offsetTop + 0.5 * PIN_SIZE;
+    addressX = Math.floor(pinButton.offsetLeft + 0.5 * PIN_SIZE);
+    addressY = Math.floor(pinButton.offsetTop + 0.5 * PIN_SIZE);
   } else {
-    addressX = pinButton.offsetLeft + 0.5 * PIN_SIZE;
+    addressX = Math.floor(pinButton.offsetLeft + 0.5 * PIN_SIZE);
     addressY = pinButton.offsetTop + PIN_SIZE + PIN_ARROW_HEIGHT;
   }
 
