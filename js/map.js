@@ -8,10 +8,10 @@ var MIN_LOCATION_Y = 150;
 var MAX_LOCATION_Y = 500;
 
 var PIN_SIZE = {
-  draggable_round_pin: 65,
-  draggable_arrow: 22,
-  user_pin_width: 50,
-  user_pin_height: 70
+  draggableRoundPin: 65,
+  draggableArrow: 22,
+  userPinWidth: 50,
+  userPinHeight: 70
 };
 
 // элементы для отрисовки
@@ -188,8 +188,8 @@ var generatePins = function (bookingItem) {
   var mapPinTemplate = document.querySelector('template').content;
   var mapPinElement = mapPinTemplate.querySelector('.map__pin').cloneNode(true);
 
-  mapPinElement.style.left = (bookingItem.location.x - Math.floor(PIN_SIZE.user_pin_width * 0.5)) + 'px';
-  mapPinElement.style.top = (bookingItem.location.y - PIN_SIZE.user_pin_height) + 'px';
+  mapPinElement.style.left = (bookingItem.location.x - Math.floor(PIN_SIZE.userPinWidth * 0.5)) + 'px';
+  mapPinElement.style.top = (bookingItem.location.y - PIN_SIZE.userPinHeight) + 'px';
 
   mapPinElement.querySelector('img').src = bookingItem.author.avatar;
 
@@ -206,7 +206,7 @@ var generatePins = function (bookingItem) {
 function renderPins() {
   var fragment = document.createDocumentFragment();
 
-  bookingItems.forEach(function(item) {
+  bookingItems.forEach(function (item) {
     fragment.appendChild(generatePins(item));
   });
 
@@ -229,9 +229,9 @@ function generateBookingItem(content) {
 
   var tempFeatures = content.offer.features;
 
-  cardElement.querySelectorAll('.feature').forEach(function(featureElement) {
-    tempFeatures.forEach(function(feature) {
-      if(featureElement.classList.contains('feature--' + feature)) {
+  cardElement.querySelectorAll('.feature').forEach(function (featureElement) {
+    tempFeatures.forEach(function (feature) {
+      if (featureElement.classList.contains('feature--' + feature)) {
         featureElement.style.diplay = 'block';
       } else {
         featureElement.style.diplay = 'none';
@@ -239,7 +239,8 @@ function generateBookingItem(content) {
     });
   });
 
-  /*function renderFeatureElement(featureName, index) {
+  /*
+  function renderFeatureElement(featureName, index) {
     if (tempFeatures.indexOf(featureName) >= 0) {
       cardElement.querySelectorAll('li')[index].classList.add('feature feature--' + featureName);
       var featureIndex = tempFeatures.indexOf(featureName);
@@ -256,13 +257,14 @@ function generateBookingItem(content) {
 */
   cardElement.querySelector('.popup__features + p').textContent = content.offer.description;
 
+  /*
   var tempPhotos = content.offer.photos;
   var photoElementSelector = cardElement.querySelector('.popup__pictures');
 
   photoElementSelector.removeChild(photoElementSelector.querySelector('li'));
 
 
-  /*function renderPhotoElement(photoSrc, index) {
+  function renderPhotoElement(photoSrc, index) {
     if (tempPhotos.indexOf(photoSrc) >= 0) {
       var photoElement = photoElementSelector.querySelector('li').cloneNode(true);
       photoElement.querySelector('img').setAttribute('src', photoSrc);
@@ -291,14 +293,14 @@ function renderBookingItem(content) {
 }
 
 function disableFormElements() {
-  fieldsetArray.forEach(function(fieldsetElement) {
+  fieldsetArray.forEach(function (fieldsetElement) {
     fieldsetElement.disabled = true;
   });
 }
 
 function enableFormElements() {
   formElement.classList.remove('notice__form--disabled');
-  fieldsetArray.forEach(function(fieldsetElement) {
+  fieldsetArray.forEach(function (fieldsetElement) {
     fieldsetElement.disabled = false;
   });
 }
@@ -312,11 +314,11 @@ function getAddress() {
   var addressY = 0;
 
   if (mapPins.classList.contains('.map--faded')) {
-    addressX = Math.floor(pinButton.offsetLeft + 0.5 * PIN_SIZE.draggable_round_pin);
-    addressY = Math.floor(pinButton.offsetTop + 0.5 * PIN_SIZE.draggable_round_pin);
+    addressX = Math.floor(pinButton.offsetLeft + 0.5 * PIN_SIZE.draggableRoundPin);
+    addressY = Math.floor(pinButton.offsetTop + 0.5 * PIN_SIZE.draggableRoundPin);
   } else {
-    addressX = Math.floor(pinButton.offsetLeft + 0.5 * PIN_SIZE.draggable_round_pin);
-    addressY = pinButton.offsetTop + PIN_SIZE.draggable_arrow;
+    addressX = Math.floor(pinButton.offsetLeft + 0.5 * PIN_SIZE.draggableRoundPin);
+    addressY = pinButton.offsetTop + PIN_SIZE.draggableArrow;
   }
 
   return addressX + ', ' + addressY;
