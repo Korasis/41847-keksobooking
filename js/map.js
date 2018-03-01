@@ -233,7 +233,7 @@ function generateBookingItem(content) {
 
   tempFeatures.forEach(function (feature, i) {
     featureElement.appendChild(document.createElement('li'));
-    featureElement.querySelectorAll('li')[i].classList.add('feature','feature--' + feature);
+    featureElement.querySelectorAll('li')[i].classList.add('feature', 'feature--' + feature);
   });
 
   cardElement.querySelector('.popup__features + p').textContent = content.offer.description;
