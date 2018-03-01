@@ -233,28 +233,7 @@ function generateBookingItem(content) {
 
   tempFeatures.forEach(function (feature, i) {
     featureElement.appendChild(document.createElement('li'));
-    var currentFeatureElement = featureElement.querySelectorAll('li');
-    currentFeatureElement[i].classList.add('feature');
-    switch (feature) {
-      case 'wifi':
-        currentFeatureElement[i].classList.add('feature--' + feature);
-        break;
-      case 'dishwasher':
-        currentFeatureElement[i].classList.add('feature--' + feature);
-        break;
-      case 'parking':
-        currentFeatureElement[i].classList.add('feature--' + feature);
-        break;
-      case 'washer':
-        currentFeatureElement[i].classList.add('feature--' + feature);
-        break;
-      case 'elevator':
-        currentFeatureElement[i].classList.add('feature--' + feature);
-        break;
-      case 'conditioner':
-        currentFeatureElement[i].classList.add('feature--' + feature);
-        break;
-    }
+    featureElement.querySelectorAll('li')[i].classList.add('feature','feature--' + feature);
   });
 
   cardElement.querySelector('.popup__features + p').textContent = content.offer.description;
