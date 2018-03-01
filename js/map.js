@@ -233,25 +233,26 @@ function generateBookingItem(content) {
 
   tempFeatures.forEach(function (feature, i) {
     featureElement.appendChild(document.createElement('li'));
-    featureElement.querySelectorAll('li')[i].classList.add('feature');
+    var currentFeatureElement = featureElement.querySelectorAll('li');
+    currentFeatureElement[i].classList.add('feature');
     switch (feature) {
       case 'wifi':
-        featureElement.querySelectorAll('li')[i].classList.add('feature--' + feature);
+        currentFeatureElement[i].classList.add('feature--' + feature);
         break;
       case 'dishwasher':
-        featureElement.querySelectorAll('li')[i].classList.add('feature--' + feature);
+        currentFeatureElement[i].classList.add('feature--' + feature);
         break;
       case 'parking':
-        featureElement.querySelectorAll('li')[i].classList.add('feature--' + feature);
+        currentFeatureElement[i].classList.add('feature--' + feature);
         break;
       case 'washer':
-        featureElement.querySelectorAll('li')[i].classList.add('feature--' + feature);
+        currentFeatureElement[i].classList.add('feature--' + feature);
         break;
       case 'elevator':
-        featureElement.querySelectorAll('li')[i].classList.add('feature--' + feature);
+        currentFeatureElement[i].classList.add('feature--' + feature);
         break;
       case 'conditioner':
-        featureElement.querySelectorAll('li')[i].classList.add('feature--' + feature);
+        currentFeatureElement[i].classList.add('feature--' + feature);
         break;
     }
   });
