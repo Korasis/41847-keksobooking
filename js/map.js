@@ -234,7 +234,7 @@ function generateBookingItem(content) {
   tempFeatures.forEach(function (feature, i) {
     featureElement.appendChild(document.createElement('li'));
     featureElement.querySelectorAll('li')[i].classList.add('feature');
-    switch(feature) {
+    switch (feature) {
       case 'wifi':
         featureElement.querySelectorAll('li')[i].classList.add('feature--' + feature);
         break;
@@ -254,7 +254,7 @@ function generateBookingItem(content) {
         featureElement.querySelectorAll('li')[i].classList.add('feature--' + feature);
         break;
     }
-  })
+  });
 
   cardElement.querySelector('.popup__features + p').textContent = content.offer.description;
 
