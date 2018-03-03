@@ -284,7 +284,7 @@ function resetPins() {
     if (!item.classList.contains('map__pin--main')) {
       item.remove();
     }
-  })
+  });
 }
 
 function disableFormElements() {
@@ -304,7 +304,7 @@ function enableFormElements() {
 function clearForm() {
   var inputs = formElement.querySelectorAll('input');
   [].forEach.call(inputs, function (item) {
-    if (item.type == 'checkbox') {
+    if (item.type === 'checkbox') {
       item.checked = false;
     } else {
       item.value = '';
@@ -364,11 +364,11 @@ pinButton.addEventListener('mouseup', pinButtonMouseupHandler);
 
 var setMinPrice = function () {
   Object.keys(typeList).forEach(function (type) {
-    if (apartmentTypeElement.value == type) {
+    if (apartmentTypeElement.value === type) {
       priceElement.setAttribute('min', typeList[type].minPrice);
     }
   });
-}
+};
 
 apartmentTypeElement.addEventListener('change', setMinPrice);
 
@@ -378,11 +378,11 @@ function setTime(time1, time2) {
 
 var setTimeOut = function () {
   setTime(checkOutElement, checkInElement);
-}
+};
 
 var setTimeIn = function () {
   setTime(checkInElement, checkOutElement);
-}
+};
 
 checkInElement.addEventListener('change', setTimeOut);
 checkOutElement.addEventListener('change', setTimeIn);
