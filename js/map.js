@@ -366,6 +366,7 @@ var setMinPrice = function () {
   Object.keys(typeList).forEach(function (type) {
     if (apartmentTypeElement.value === type) {
       priceElement.setAttribute('min', typeList[type].minPrice);
+      priceElement.setAttribute('placeholder', typeList[type].minPrice);
     }
   });
 };
@@ -395,6 +396,7 @@ function roomsChangeHandler() {
     });
   }
 }
+roomsChangeHandler();
 
 roomsElement.addEventListener('change', roomsChangeHandler);
 
